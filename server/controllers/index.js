@@ -10,12 +10,25 @@ var defaultCorsHeaders = {
 module.exports = {
   messages: {
     get: function (req, res) {
-      console.log('!!!hello!!!', req.method);
-      response.setHeader('Content-Type', 'application/json');
-      response.writeHead(200, defaultCorsHeaders);
-      models.messages.get(response.end(data));
+      models.messages.get(function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.json(result);
+        }
+      });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
+      
+      var ourMessage = [req.body.message, req.body.roomname, req.body.username];
+      models.messages.post(ourMessage, function(err, results) {
+        if (err) {
+          console.log(err, 'i am an error');
+        } else {
+          res.sendStatus(201);
+          res.end();
+        }
+      });
       
     } // a function which handles posting a message to the database
   },
@@ -23,9 +36,14 @@ module.exports = {
   users: {
     // Ditto as above
     get: function (req, res) {
-      response.setHeader('Content-Type', 'application/json');
-      response.writeHead(200, defaultCorsHeaders);
-      models.messages.get(response.end(data));
+      models.users.get(function(err, results) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(res.json);
+          res.json(results);
+        }
+      });
     },
     post: function (req, res) {
       var ourUser = [req.body.username];
@@ -34,6 +52,7 @@ module.exports = {
           console.log(err);
         } else {
           res.sendStatus(201);
+          res.end();
         }
       });
     }

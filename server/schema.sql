@@ -1,14 +1,7 @@
--- CREATE DATABASE chat;
+drop database if exists chat;
+CREATE DATABASE chat;
 
 USE chat;
-
-
-CREATE TABLE roomName (
-  roomNameId Integer NOT NULL AUTO_INCREMENT,
-  room varchar(20),
-  PRIMARY KEY (roomNameId)
-  
-);
 
 CREATE TABLE userName (
   userNameId Integer NOT NULL AUTO_INCREMENT,
@@ -20,12 +13,10 @@ CREATE TABLE userName (
 CREATE TABLE message (
   messageId Integer NOT NULL AUTO_INCREMENT,
   messageText varchar(255),
-  timeSent timestamp,
-  roomNameId Integer,
+  roomName varchar(20),
   userNameId Integer,
   
   PRIMARY KEY (messageId),
-  FOREIGN KEY (roomNameId) REFERENCES roomName(roomNameId),
   FOREIGN KEY (userNameId) REFERENCES userName(userNameId)
   
 );
